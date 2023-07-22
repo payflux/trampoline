@@ -27,6 +27,7 @@ const TransferAsset = () => {
   const [error, setError] = React.useState<string>('');
   const activeAccount = useBackgroundSelector(getActiveAccount);
   const [loader, setLoader] = React.useState<boolean>(false);
+  const [paymasterAndData, setPaymasterAndData] = React.useState<string>('0x');
 
   const sendEth = useCallback(async () => {
     if (!ethers.utils.isAddress(toAddress)) {
@@ -50,7 +51,7 @@ const TransferAsset = () => {
           data: '0x',
           value: ethers.utils.parseEther(value),
         },
-        'IT WORKS!',
+        paymasterAndData,
       ],
     });
     console.log(txHash);
@@ -102,6 +103,17 @@ const TransferAsset = () => {
                   }
                   value={value}
                   onChange={(e) => setValue(e.target.value)}
+                  label="Value"
+                />
+              </FormControl>
+              <FormControl sx={{ m: 1, width: 300 }} variant="outlined">
+                <InputLabel htmlFor="password">Paymaster</InputLabel>
+                <OutlinedInput
+                  endAdornment={
+                    <InputAdornment position="end">0x</InputAdornment>
+                  }
+                  value={paymasterAndData}
+                  onChange={(e) => setPaymasterAndData(e.target.value)}
                   label="Value"
                 />
               </FormControl>
