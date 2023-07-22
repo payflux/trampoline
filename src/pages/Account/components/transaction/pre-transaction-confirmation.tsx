@@ -120,13 +120,15 @@ const PreTransactionConfirmationComponent: PreTransactionConfirmation = ({
   transaction,
   onReject,
 }: PreTransactionConfirmationtProps) => {
-  console.log('transaction', transaction);
   const [loader, setLoader] = React.useState<boolean>(false);
   const [paymasterAndData, setPaymasterAndDataLocal] = useState<string>('');
 
   useEffect(() => {
-    if (transaction.paymasterAndData)
-      setPaymasterAndDataLocal(transaction.paymasterAndData);
+    if (transaction.paymasterAndData) {
+      const pad = transaction.paymasterAndData.slice();
+      delete transaction.paymasterAndData;
+      if (pad.length >= 20) setPaymasterAndDataLocal(pad);
+    }
   }, [transaction.paymasterAndData]);
 
   return (

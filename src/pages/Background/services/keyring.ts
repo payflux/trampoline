@@ -366,6 +366,8 @@ export default class KeyringService extends BaseService<Events> {
   ): Promise<UserOperationStruct> => {
     const keyring = this.keyrings[address];
 
+    console.log('context: ', context);
+
     return keyring.signUserOpWithContext(userOp, context);
   };
 
@@ -386,6 +388,7 @@ export default class KeyringService extends BaseService<Events> {
     transaction: EthersTransactionRequest,
     context?: any
   ): Promise<UserOperationStruct> => {
+    console.log('createUnsignedUserOp', address, transaction, context);
     const keyring = this.keyrings[address];
     const userOp = await resolveProperties(
       await keyring.createUnsignedUserOpWithContext(

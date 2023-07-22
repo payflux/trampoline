@@ -204,9 +204,12 @@ export const createUnsignedUserOp = createBackgroundAsyncThunk(
     const transactionRequest = state.transactions.transactionRequest;
 
     if (transactionRequest) {
+      const txn = Object.assign({}, transactionRequest);
+      delete txn.paymasterAndData;
+      console.log('transactionRequest', address, transactionRequest, context);
       const userOp = await keyringService.createUnsignedUserOp(
         address,
-        transactionRequest,
+        txn,
         context
       );
       dispatch(setUnsignedUserOperation(userOp));

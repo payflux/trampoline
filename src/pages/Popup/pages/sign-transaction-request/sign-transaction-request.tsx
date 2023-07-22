@@ -43,8 +43,6 @@ const SignTransactionRequest = (): ReactElement => {
     selectCurrentPendingSendTransactionRequest
   );
 
-  console.log('sendTransactionRequest', sendTransactionRequest);
-
   const sendModiefiedTransactionRequest = useBackgroundSelector(
     selectCurrentPendingModifiedSendTransactionRequest
   );

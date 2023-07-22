@@ -27,7 +27,7 @@ const TransferAsset = () => {
   const [error, setError] = React.useState<string>('');
   const activeAccount = useBackgroundSelector(getActiveAccount);
   const [loader, setLoader] = React.useState<boolean>(false);
-  const [paymasterAndData, setPaymasterAndData] = React.useState<string>('0x');
+  const [paymasterAndData, setPaymasterAndData] = React.useState<string>('');
 
   const sendEth = useCallback(async () => {
     if (!ethers.utils.isAddress(toAddress)) {

@@ -69,7 +69,9 @@ class SimpleAccountTrampolineAPI
   ): Promise<UserOperationStruct> {
     return {
       ...(await this.createUnsignedUserOp(info)),
-      paymasterAndData: '0x9B9893d95b78DE41ef9Edc206205C8d42E6476E8',
+      paymasterAndData: preTransactionConfirmationContext?.paymasterAndData
+        ? preTransactionConfirmationContext?.paymasterAndData
+        : '0x',
     };
   }
 
@@ -82,6 +84,7 @@ class SimpleAccountTrampolineAPI
     userOp: UserOperationStruct,
     postTransactionConfirmationContext: any
   ): Promise<UserOperationStruct> => {
+    console.log('signUserOpWithContext', userOp);
     return this.signUserOp(userOp);
   };
 }
