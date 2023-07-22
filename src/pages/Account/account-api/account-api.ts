@@ -69,9 +69,7 @@ class SimpleAccountTrampolineAPI
   ): Promise<UserOperationStruct> {
     return {
       ...(await this.createUnsignedUserOp(info)),
-      paymasterAndData: preTransactionConfirmationContext?.paymasterAndData
-        ? preTransactionConfirmationContext?.paymasterAndData
-        : '0x',
+      paymasterAndData: '0x9B9893d95b78DE41ef9Edc206205C8d42E6476E8',
     };
   }
 

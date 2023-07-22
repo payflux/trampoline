@@ -9,7 +9,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   PreTransactionConfirmation,
   PreTransactionConfirmationtProps,
@@ -18,12 +18,16 @@ import PrimaryButton from '../PrimaryButton';
 
 const AddPaymasterAndData = ({
   setPaymasterAndData,
+  paymasterAndDataGlobal,
 }: {
   setPaymasterAndData: (paymasterAndData: string) => void;
+  paymasterAndDataGlobal?: string;
 }) => {
   const [showAddPaymasterUI, setShowAddPaymasterUI] = useState<boolean>(false);
   const [addPaymasterLoader, setAddPaymasterLoader] = useState<boolean>(false);
-  const [paymasterAndData, setPaymasterAndDataLocal] = useState<string>('');
+  const [paymasterAndData, setPaymasterAndDataLocal] = useState<string>(
+    paymasterAndDataGlobal || ''
+  );
 
   const addPaymaster = useCallback(async () => {
     setAddPaymasterLoader(true);
@@ -116,8 +120,14 @@ const PreTransactionConfirmationComponent: PreTransactionConfirmation = ({
   transaction,
   onReject,
 }: PreTransactionConfirmationtProps) => {
+  console.log('transaction', transaction);
   const [loader, setLoader] = React.useState<boolean>(false);
   const [paymasterAndData, setPaymasterAndDataLocal] = useState<string>('');
+
+  useEffect(() => {
+    if (transaction.paymasterAndData)
+      setPaymasterAndDataLocal(transaction.paymasterAndData);
+  }, [transaction.paymasterAndData]);
 
   return (
     <>
@@ -140,7 +150,10 @@ const PreTransactionConfirmationComponent: PreTransactionConfirmation = ({
           trampoline/src/pages/Account/components/transaction/pre-transaction-confirmation.ts
         </Typography>
         <Box sx={{ mt: 4, mb: 4 }}>
-          <AddPaymasterAndData setPaymasterAndData={setPaymasterAndDataLocal} />
+          <AddPaymasterAndData
+            paymasterAndDataGlobal={transaction.paymasterAndData}
+            setPaymasterAndData={setPaymasterAndDataLocal}
+          />
         </Box>
       </CardContent>
       <CardActions sx={{ width: '100%' }}>
@@ -150,7 +163,9 @@ const PreTransactionConfirmationComponent: PreTransactionConfirmation = ({
             size="large"
             variant="contained"
             onClick={() => {
-              onComplete(transaction, { paymasterAndData });
+              onComplete(transaction, {
+                paymasterAndData,
+              });
               setLoader(true);
             }}
           >

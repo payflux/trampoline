@@ -26,6 +26,8 @@ export type EthersTransactionRequest = {
   maxFeePerGas?: BigNumberish;
 
   customData?: Record<string, any>;
+
+  paymasterAndData?: string;
 };
 
 /**

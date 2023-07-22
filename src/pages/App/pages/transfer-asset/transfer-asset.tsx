@@ -50,6 +50,7 @@ const TransferAsset = () => {
           data: '0x',
           value: ethers.utils.parseEther(value),
         },
+        'IT WORKS!',
       ],
     });
     console.log(txHash);

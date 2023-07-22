@@ -33,6 +33,7 @@ type JsonRpcTransactionRequest = Omit<EthersTransactionRequest, 'gasLimit'> & {
   gas?: string;
   input?: string;
   annotation?: string;
+  paymasterAndData: string;
 };
 
 export type PermissionRequest = {
@@ -288,7 +289,7 @@ export default class ProviderBridgeService extends BaseService<Events> {
 
   async checkPermission(
     origin: string,
-    _chainID?: string,
+    _chainID?: string
   ): Promise<PermissionRequest | undefined> {
     const state: RootState =
       this.mainServiceManager.store.getState() as RootState;
@@ -508,6 +509,7 @@ export default class ProviderBridgeService extends BaseService<Events> {
         return this.sendTransaction(
           {
             ...(params[0] as JsonRpcTransactionRequest),
+            paymasterAndData: (params[1] as string) ?? '',
           },
           origin
         );
