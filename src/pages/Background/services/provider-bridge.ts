@@ -33,7 +33,7 @@ type JsonRpcTransactionRequest = Omit<EthersTransactionRequest, 'gasLimit'> & {
   gas?: string;
   input?: string;
   annotation?: string;
-  paymasterAndData: string;
+  paymasterAndData?: string;
 };
 
 export type PermissionRequest = {
