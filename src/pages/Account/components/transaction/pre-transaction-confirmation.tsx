@@ -18,16 +18,13 @@ import PrimaryButton from '../PrimaryButton';
 
 const AddPaymasterAndData = ({
   setPaymasterAndData,
-  paymasterAndDataGlobal,
+  paymasterAndData,
 }: {
   setPaymasterAndData: (paymasterAndData: string) => void;
-  paymasterAndDataGlobal?: string;
+  paymasterAndData: string;
 }) => {
   const [showAddPaymasterUI, setShowAddPaymasterUI] = useState<boolean>(false);
   const [addPaymasterLoader, setAddPaymasterLoader] = useState<boolean>(false);
-  const [paymasterAndData, setPaymasterAndDataLocal] = useState<string>(
-    paymasterAndDataGlobal || ''
-  );
 
   const addPaymaster = useCallback(async () => {
     setAddPaymasterLoader(true);
@@ -66,7 +63,7 @@ const AddPaymasterAndData = ({
         <Paper sx={{ p: 2 }}>
           <TextField
             value={paymasterAndData}
-            onChange={(e) => setPaymasterAndDataLocal(e.target.value)}
+            onChange={(e) => setPaymasterAndData(e.target.value)}
             sx={{ width: '100%' }}
             label="Paymaster And Data"
             variant="standard"
@@ -121,40 +118,26 @@ const PreTransactionConfirmationComponent: PreTransactionConfirmation = ({
   onReject,
 }: PreTransactionConfirmationtProps) => {
   const [loader, setLoader] = React.useState<boolean>(false);
-  const [paymasterAndData, setPaymasterAndDataLocal] = useState<string>('');
+  const [paymasterAndData, setPaymasterAndData] = useState<string>('');
 
   useEffect(() => {
+    console.log(transaction);
     if (transaction.paymasterAndData) {
       const pad = transaction.paymasterAndData.slice();
-      delete transaction.paymasterAndData;
-      if (pad.length >= 20) setPaymasterAndDataLocal(pad);
+      setPaymasterAndData(pad);
     }
-  }, [transaction.paymasterAndData]);
+  }, [transaction]);
 
   return (
     <>
       <CardContent>
         <Typography variant="h3" gutterBottom>
-          Dummy Component
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          You can show as many steps as you want in this dummy component. You
-          need to call the function <b>onComplete</b> passed as a props to this
-          component. <br />
-          <br />
-          The function takes a modifiedTransactions & context as a parameter,
-          the context will be passed to your AccountApi when creating a new
-          account. While modifiedTransactions will be agreed upon by the user.
-          <br />
-          This Component is defined in exported in{' '}
-        </Typography>
-        <Typography variant="caption">
-          trampoline/src/pages/Account/components/transaction/pre-transaction-confirmation.ts
+          Paymaster
         </Typography>
         <Box sx={{ mt: 4, mb: 4 }}>
           <AddPaymasterAndData
-            paymasterAndDataGlobal={transaction.paymasterAndData}
-            setPaymasterAndData={setPaymasterAndDataLocal}
+            paymasterAndData={paymasterAndData}
+            setPaymasterAndData={setPaymasterAndData}
           />
         </Box>
       </CardContent>
